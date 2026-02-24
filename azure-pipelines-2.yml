@@ -27,6 +27,6 @@ stages:
     jobs:
       - deployment: 'DeployService'
         displayName: 'Deploy Service'
-        environment: ''
+        environment: 'BaseBuilderAyem'
 
 
