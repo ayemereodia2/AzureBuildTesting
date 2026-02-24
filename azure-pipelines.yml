@@ -17,6 +17,12 @@ variables:
 
 steps:
 
+- task: UseDotNet@2
+  name: 'SDKInstaller'
+  displayName: 'SDK installation'
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.428'
 - task: NuGetToolInstaller@1
   name: 'NuggetToolInstaller'
   displayName: 'Nugget Tool Installer'
