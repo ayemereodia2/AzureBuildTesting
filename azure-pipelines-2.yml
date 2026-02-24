@@ -27,6 +27,38 @@ stages:
     jobs:
       - deployment: 'DeployService'
         displayName: 'Deploy Service'
-        environment: 'BaseBuilderAyem'
+        environment: 'Windows Server 2026.BaseBuilderAyem'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: none
 
+                - download: 'buildPipeline'
+                  name: 'DownloadBuildArtifacts'
+                  displayName: 'Download build Artifacts'
+                  artifact: 'AzureTestProject'
 
+                - task: IISWebAppManagementOnMachineGroup@0
+                  name: 'StopIIS'
+                  displayName: 'Stop IIS Service'
+                  inputs:
+                    IISDeploymentType: 'IISWebsite'
+                    ActionIISWebsite: 'StopWebsite'
+                    StartStopWebsiteName: '${{variables.IISWebSiteName}}'
+                - task: IISWebAppDeploymentOnMachineGroup@0
+                  name: 'DeployIIS'
+                  displayName: 'Deploy IIS Service'
+                  inputs:
+                    WebSiteName: '${{variables.IISWebSiteName}}'
+                    Package: '$(Pipeline.Workspace)\buildPipeline\AzureTestProject\RoundTheCode.AzureTestProject'
+                    TakeAppOfflineFlag: true'
+
+                - task: IISWebAppManagementOnMachineGroup@0
+                  name: 'StartIIS'
+                  displayName: 'Start IIS Service'
+                  inputs:
+                    IISDeploymentType: 'IISWebsite'
+                    ActionIISWebsite: 'StartWebsite'
+                    StartStopWebsiteName: '${{variables.IISWebSiteName}}'
+                  
