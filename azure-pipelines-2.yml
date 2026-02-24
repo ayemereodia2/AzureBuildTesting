@@ -27,7 +27,9 @@ stages:
     jobs:
       - deployment: 'DeployService'
         displayName: 'Deploy Service'
-        environment: 'Windows Server 2026.BaseBuilderAyem'
+        environment: 
+          name: 'Windows Server 2026.BaseBuilderAyem'
+          resourceType: 'VirtualMachine'
         strategy:
           runOnce:
             deploy:
