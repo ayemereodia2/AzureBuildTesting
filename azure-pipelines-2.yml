@@ -1,0 +1,32 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+
+trigger:
+- none
+
+variables:
+  IISWebSiteName: 'AzureTestProject'
+
+resources:
+  pipelines:
+    - pipeline: 'buildPipeline'
+      project: 'AzureTestProject'
+      source: 'Build Pipeline'
+      branch: 'main'
+
+
+stages:
+  - stage: 'DeployService'
+    displayName: 'Deploy Service'
+    pool:
+      vmImage: 'window-lastest'
+
+    jobs:
+      - deployment: 'DeployService'
+        displayName: 'Deploy Service'
+        environment: ''
+
+
